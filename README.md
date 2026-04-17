@@ -1,73 +1,69 @@
-# React + TypeScript + Vite
+# onbook-demo-org
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Template repo for the Onbook demo organization. Ships a populated shadcn component library and a set of marketing-section blocks, all exposed as Storybook stories so the Onbook canvas can render them.
 
-Currently, two official plugins are available:
+## What's in here
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### UI primitives — `src/components/ui/`
 
-## React Compiler
+55 shadcn components (Nova preset, Radix base, Tailwind v4), one `Default` story per component under the `UI/*` Storybook section.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Marketing blocks — `src/components/blocks/`
 
-## Expanding the ESLint configuration
+79 blocks adapted from [Tailark's dusk-kit](https://github.com/tailark/blocks) (MIT), organized by category:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| Category | Variants |
+|---|---|
+| hero-section | 9 |
+| features | 12 |
+| content | 7 |
+| testimonials | 6 |
+| footer | 5 |
+| pricing | 5 |
+| integrations | 8 |
+| faqs | 4 |
+| stats | 4 |
+| call-to-action | 3 |
+| logo-cloud | 3 |
+| login · sign-up · forgot-password | 8 |
+| contact · team · comparator | 5 |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Each block lives at `blocks/<category>/<variant>/index.tsx` with a sibling `index.stories.tsx` rendering it under `Marketing/<Category>/<Variant>`.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Supporting pieces
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- `src/components/motion-primitives/` — `AnimatedGroup`, `InfiniteSlider`, `ProgressiveBlur`, `TextEffect`
+- `src/components/magicui/` — `BorderBeam`
+- `src/components/svgs/` — 20 brand logos (Vercel, Supabase, Linear, Claude, Spotify, etc.)
+- `src/lib/next-shim.tsx` — drop-in replacement for `next/image` + `next/link` so the Next-authored Tailark blocks run under plain Vite
+
+## Commands
+
+```bash
+bun install
+bun run storybook        # dev server at http://localhost:6006
+bun run build-storybook  # static export to storybook-static/
+bun run typecheck        # tsc --noEmit -p tsconfig.app.json
+bun run dev              # app shell on :5173 (rarely needed; Storybook is the primary surface)
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Integration with Onbook
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+`.storybook/main.ts` wires `@onlook/storybook-plugin` via `viteFinal`, which adds:
+- `data-component-file` attributes for click-to-source in the canvas
+- Screenshot capture endpoint (`/api/capture-screenshot`) used by the Onbook extended index
+- E2B sandbox HMR routing
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Light/dark mode is toggled via `@storybook/addon-themes` using the `.dark` class on `html`, matching the shadcn theme setup in `src/index.css`.
+
+## Conventions
+
+- Stories: **one `Default` export per component or block.** No variants, no controls beyond whatever `autodocs` infers. Add more only if the canvas actually needs them.
+- Path alias: `@/*` → `src/*`.
+- Images: absolute paths (`/payments-light.png`) resolved from `public/`.
+- Fonts: Geist Variable loaded via `@fontsource-variable/geist` in `index.css`.
+
+## Attribution
+
+- shadcn components: MIT — [shadcn/ui](https://ui.shadcn.com)
+- Marketing blocks: MIT — [Tailark](https://github.com/tailark/blocks) by Méschac Irung. Icons: [Lucide](https://lucide.dev).

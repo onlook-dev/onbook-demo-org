@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from '@/lib/next-shim'
 import { Button } from '@/components/ui/button'
 import { HeroHeader } from './header'
