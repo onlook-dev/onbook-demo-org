@@ -1,0 +1,59 @@
+import { Spotify } from '@/components/svgs/spotify'
+import { SupabaseFull } from '@/components/svgs/supabase'
+import { Hulu } from '@/components/svgs/hulu'
+import { FirebaseFull } from '@/components/svgs/firebase'
+import { Beacon } from '@/components/svgs/beacon'
+import { Bolt } from '@/components/svgs/bolt'
+import { Claude } from '@/components/svgs/claude'
+import { Figma } from '@/components/svgs/figma'
+import { VercelFull } from '@/components/svgs/vercel'
+import { Cisco } from '@/components/svgs/cisco'
+
+export default function LogoCloud() {
+    return (
+        <section className="bg-background py-16">
+            <div className="mx-auto max-w-5xl px-6">
+                <h2 className="text-center text-lg font-medium">Your favorite companies are our partners.</h2>
+                <div className="**:fill-foreground mx-auto mt-20 flex max-w-4xl flex-wrap items-center justify-center gap-x-12 gap-y-8 sm:gap-x-16 sm:gap-y-12">
+                    <Bolt
+                        height={22}
+                        width={56}
+                    />
+                    <VercelFull
+                        height={22}
+                        width={84}
+                    />
+                    <SupabaseFull className="h-6" />
+                    <Hulu
+                        height={18}
+                        width={56}
+                    />
+                    <Spotify
+                        height={24}
+                        width={80}
+                    />
+                    <FirebaseFull
+                        height={24}
+                        width={80}
+                    />
+                    <Beacon
+                        height={24}
+                        width={80}
+                    />
+                    <Claude
+                        height={26}
+                        width={90}
+                    />
+                    <Figma
+                        height={24}
+                        width={24}
+                    />
+                    <Cisco
+                        height={30}
+                        width={60}
+                    />
+                </div>
+            </div>
+        </section>
+    )
+}
