@@ -1,6 +1,7 @@
 import { withThemeByClassName } from '@storybook/addon-themes';
 import type { Preview } from '@storybook/react-vite';
 import '../src/index.css';
+import { ElementInspector } from './components/ElementInspector';
 
 const preview: Preview = {
   parameters: {
@@ -19,6 +20,12 @@ const preview: Preview = {
       themes: { light: '', dark: 'dark' },
       defaultTheme: 'light',
     }),
+    (Story) => (
+      <>
+        <ElementInspector />
+        <Story />
+      </>
+    ),
   ],
 };
 
