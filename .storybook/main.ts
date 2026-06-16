@@ -16,6 +16,12 @@ const config: StorybookConfig = {
     const { mergeConfig } = await import('vite');
     return mergeConfig(config, {
       plugins: [storybookOnlookPlugin()],
+      // Onlook serves the deployed preview from a sandbox domain (e.g. *.e2b.app).
+      // Vite's dev server blocks any Host not on its allowlist, so allow the
+      // sandbox subdomains here. Use `true` instead if the deploy host varies.
+      server: {
+        allowedHosts: ['.e2b.app'],
+      },
       // lucide-react 1.8.0 has ~5.8k icon re-exports. When lucide-react/dynamic
       // is also imported (faqs/three uses DynamicIcon), both become dep-scan
       // entries and esbuild's splitting promotes every shared icon into its own
